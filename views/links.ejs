@@ -31,7 +31,7 @@
                                     <p class="card-text mb-1"><strong>Original:</strong> <a
                                             href="<%= link.original_link %>" target="_blank">Link Antigo</a></p>
                                     <p class="card-text mb-1"><strong>Label:</strong>
-                                        <%= link.label %>
+                                        <span id="label"><%= link.label %></span>
                                     </p>
                                     <p class="card-text mb-1"><strong>Cliques:</strong>
                                         <%= link.clicks %>
@@ -41,8 +41,8 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="button" value="Delete" idlink="<%= link.idlink %>"
-                                        class="btn btn-danger m-2 delete-btn">
+                                    <input type="button" value="Delete" idlink="<%= link.idlink %>" class="btn btn-danger m-2 delete-btn">
+                                    <input type="button" value="Copiar" label="<%= link.label %>" class="btn btn-success m-2 copy-btn">
                                 </div>
                             </div>
                         </div>
@@ -65,12 +65,20 @@
             url: `/delete/${id}`,
             success: (data) => {
                 alert(data.msg)
-                // opcional: remover da interface
-                // $(this).closest('.item').remove()
+                location.reload()
             }
         })
     })
-
+    $(document).on('click', '.copy-btn', function(e){
+        const txt = `${location.protocol}://${location.host}/${$(this).attr('label')}`
+        navigator.clipboard.writeText(txt)
+        .then(() => {
+            alert('Link copiado')
+        })
+        .catch(err => {
+        console.error("Erro ao copiar");
+        });
+    })
 </script>
 
 </html>

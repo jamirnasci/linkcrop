@@ -47,3 +47,15 @@ export async function deleteLink(iduser, idlink){
         }
     }
 }
+
+export async function findByLabel(label){
+    const sql = 'SELECT original_link FROM link WHERE label = ?'
+    try { 
+        const conn = await pool.getConnection()
+        const [result] = await conn.execute(sql, [label])   
+        return result[0]
+    } catch (error) {
+        console.log(error)
+        return null
+    }
+}
