@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Criar Link Encurtado</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
+</head>
+
+<body class="bg-light">
+  <%- include('partials/header.ejs') %>
+  <div class="container py-5">
+    <h1 class="mb-4">Criar Novo Link</h1>
+
+    <form action="/links" method="POST" class="bg-white p-4 rounded shadow-sm" id="create-link-form">
+      <div class="mb-3">
+        <label for="title" class="form-label">Título</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Ex: Página do Produto X" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="original_url" class="form-label">URL Original</label>
+        <input type="url" class="form-control" id="original_link" name="original_link"
+          placeholder="https://exemplo.com/pagina" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="label" class="form-label">Etiqueta</label>
+        <input type="text" class="form-control" id="label" name="label" placeholder="É o código que fica no link :)">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Criar Link</button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<script>
+  $('#create-link-form').on('submit', (e)=>{
+    e.preventDefault()
+    $.ajax({
+      method: 'POST',
+      url:'/newLink',
+      data:{
+        title: $('#title').val(),
+        original_link: $('#original_link').val(),
+        label: $('#label').val()
+      },
+      success: (data)=>{
+        alert(data.msg)
+      }
+    })
+  })
+</script>
+
+</html>
